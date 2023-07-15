@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace Crm\Note\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Note extends Model
 {
     use HasFactory;
 }

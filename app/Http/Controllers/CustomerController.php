@@ -2,49 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use Crm\Customer\Requests\CreateCustomerRequest;
+use Crm\Customer\Services\CustomerService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
+    public function __construct(
+        private CustomerService $customerService
+    ){}
+
     public function index(Request $request)
     {
-        $customers = Customer::all();
-        return $customers;
+        return $this->customerService->index($request);
     }
 
-    public function show(Request $request,$id)
+    public function show($id)
     {
-        return Customer::find($id)??response()->json(['status'=>'Not Found'],Response::HTTP_NOT_FOUND);
+        return $this->customerService->show($id);
     }
 
-    public function create(Request $request)
+    public function create(CreateCustomerRequest $request)
     {
-        $customer = new Customer();
-        $customer->name = $request->get('name');
-        $customer->save();
-        return $customer;
+
+        return $this->customerService->create($request);
     }
     public function update(Request $request,$id)
     {
-        $customer = Customer::find($id);
-        if(!$customer){
-            return response()->json(['status'=>'Not Found'],Response::HTTP_NOT_FOUND);
-        }
-        $customer->name = $request->get('name');
-        $customer->save();
-        return $customer;
+        return $this->customerService->update($request,$id);
     }
     public function delete(Request $request,$id)
     {
-        $customer = Customer::find($id);
-        if(!$customer){
-            return response()->json(['status'=>'Not Found'],Response::HTTP_NOT_FOUND);
-        }
-        $customer->delete();
-        return response()->json(['status'=>'deleted'],Response::HTTP_OK);
-        ;
+        return $this->customerService->delete($request,(int)$id);
     }
 
 
