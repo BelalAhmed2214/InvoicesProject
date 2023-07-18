@@ -2,6 +2,7 @@
 
 namespace Crm\Project\Services;
 
+use Crm\Project\Events\ProjectCreation;
 use Crm\Project\Models\Project;
 use Crm\Project\Requests\CreateProjectRequest;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class ProjectService
         $project->customer_id = $customerId;
 
         $project->save();
+        event(new ProjectCreation($project));
         return $project;
     }
 }

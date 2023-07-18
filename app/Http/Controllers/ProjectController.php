@@ -20,13 +20,12 @@ class ProjectController extends Controller
         $this->projectService = $projectService;
     }
 
-    public function create(CreateProject  $request,$customerId)
+    public function create(CreateProjectRequest $request,$customerId)
     {
         $customer = $this->customerService->show($customerId);
         if( !$customer ) {
             return response()->json(['status'=> 'Customer Not found'], Response::HTTP_NOT_FOUND);
         }
-
         return $this->projectService->create($request, $customerId);
     }
 

@@ -4,6 +4,7 @@ namespace Crm\Customer\Services;
 
 use Crm\Customer\Models\Customer;
 use Crm\Customer\Requests\CreateCustomerRequest;
+use Crm\Project\Events\CustomerCreation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -25,6 +26,7 @@ class CustomerService
         $customer = new Customer();
         $customer->name = $request->get('name');
         $customer->save();
+        event(new CustomerCreation($customer));
         return $customer;
     }
     public function update(Request $request,$id)
